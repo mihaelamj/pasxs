@@ -1,5 +1,18 @@
-paszmq: Pascal (Delphi) Bindings for ØMQ
+Crossroads I/O bindings for Delphi Pascal
 
-The paszmq project provides Pascal binding for the 2.1 release of ØMQ (ZeroMQ). It follows closely the APIs provided for the C and C++ bindings.
+(formerly paszmq: Pascal (Delphi) Bindings for ï¿½MQ
+The paszmq project provides Pascal binding for the 2.1 release of ï¿½MQ (ZeroMQ). It follows closely the APIs provided for the C and C++ bindings.)
 
-The plan is to make the higher-level bindings more closer to Pascal (Delphi) conventions.
+
+Project is a fork of colinj (Colin Johnsun)
+
+Updated the sources for Crossroads XS 1.0
+
+libxs_lib.pas:
+has bindings for XS C library libxs.dll
+
+libxs_consts.pas:
+has all the constants for XS library. 
+
+
+
