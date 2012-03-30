@@ -36,14 +36,16 @@ sndBytes := pas_xs_send(pxsServerSocket, sendMsg, 0);
 xs_msg_close(xsServerMessage);
 ```
 #### Variable types
-```pxsContext      : Pointer;
+```
+pxsContext      : Pointer;
 pxsClientSocket : Pointer;
 xsServerMessage : TXS_Msg;
 xsClientMessage : TXS_Msg;
 recBytes,
 sndBytes        : integer;
 readStr         : AnsiString;
-recMsg          : AnsiString;```
+recMsg          : AnsiString;
+```
 
 There is a demonstartion project with server and client implementations.
 
