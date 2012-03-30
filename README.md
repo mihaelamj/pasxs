@@ -35,5 +35,34 @@ xs_msg_init_size(xsServerMessage, Length(sendMsg));
 sndBytes := pas_xs_send(pxsServerSocket, sendMsg, 0);
 xs_msg_close(xsServerMessage);
 ```
+#### Variable types
+```pxsContext      : Pointer;
+pxsClientSocket : Pointer;
+xsServerMessage : TXS_Msg;
+xsClientMessage : TXS_Msg;
+recBytes,
+sndBytes        : integer;
+readStr         : AnsiString;
+recMsg          : AnsiString;```
 
 There is a demonstartion project with server and client implementations.
+
+
+## Included units
+
+### libxs_consts.pas
+Crossroads I/O constants 
+
+
+### libxs_lib.pas
+C function declarations and basic types 
+
+
+### libxs_pas.pas
+Wrappers around C functions in libxs_lib
+
+##To Be Done
+Wrapp all the units
+Make more exaples
+Make object model based on C++ XS object model
+
