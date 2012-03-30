@@ -1,3 +1,19 @@
+(*
+   Crossroads I/O bindings for Delphi Pascal
+   Version 1.0.1
+
+   Mihaela Mihaljevic Jakic
+   mihaela@token.hr
+   http://mihaelamj.com
+
+   GitHub repo:
+   https://github.com/mihaelamj/pasxs
+
+   Fork of the ZeroMQ Pascal bindings (https://github.com/colinj/paszmq)
+*)
+
+(* Crossroads I/O constants *)
+
 unit libxs_consts;
 
 interface
@@ -98,6 +114,7 @@ const
    XS_SOCK_OPT_RCVTIMEO          = 27 ;
    XS_SOCK_OPT_SNDTIMEO          = 28 ;
    XS_SOCK_OPT_IPV4ONLY          = 31  ;
+   XS_SOCK_OPT_KEEPALIVE         = 32  ;  //1.0.1
 
  (* Message options *)
    XS_MSG_OPT_MORE               = 1;
@@ -111,6 +128,8 @@ const
    XS_IOMUL_POLLOUT              = 2;
    XS_IOMUL_POLLERR              = 4;
 
+(* Message buffer size for send/receive*)
+   XS_MAX_MSG_BUF_SIZE           = 256;
 
 implementation
 

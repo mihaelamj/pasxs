@@ -1,3 +1,19 @@
+(*
+   Crossroads I/O bindings for Delphi Pascal
+   Version 1.0.1
+
+   Mihaela Mihaljevic Jakic
+   mihaela@token.hr
+   http://mihaelamj.com
+
+   GitHub repo:
+   https://github.com/mihaelamj/pasxs
+
+   Fork of the ZeroMQ Pascal bindings (https://github.com/colinj/paszmq)
+*)
+
+(* C function declarations and basic types *)
+
 unit libxs_lib;
 
 interface
@@ -67,11 +83,16 @@ function xs_close(s: Pointer): Integer; cdecl; external libxs_name;
 function xs_setsockopt(s: Pointer; option: Integer; const optval: Pointer; optvallen: size_t): Integer; cdecl; external libxs_name;
 function xs_getsockopt(s: Pointer; option: Integer; var optval: Pointer; var optvallen: size_t): Integer; cdecl; external libxs_name;
 function xs_bind(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external libxs_name;
+//int xs_connect (void *s_, const char *addr_)
 function xs_connect(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external libxs_name;
-function xs_send(s: Pointer; var msg: TXS_Msg; len: size_t; flags: Integer): Integer; cdecl; external libxs_name;
-function xs_recv(s: Pointer; var msg: TXS_Msg; len: size_t; flags: Integer): Integer; cdecl; external libxs_name;
+//int xs_sendmsg (void *s_, xs_msg_t *msg_, int flags_)
 function xs_sendmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
 function xs_recvmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
+
+//int xs_send (void *s_, const void *buf_, size_t len_, int flags_)
+function xs_send(s: Pointer; pBuf : PAnsiChar; len: size_t; flags: Integer): Integer; cdecl; external libxs_name;
+//int xs_recv (void *socket, void *buf, size_t len, int flags);
+function xs_recv(s: Pointer;  buf : AnsiString; len: size_t; flags: Integer): Integer; cdecl; external libxs_name;
 
 (*I/O Multiplexing*)
 (*typedef struct{
@@ -89,6 +110,12 @@ type
   end;
 
   PTXS_Socket = ^TXS_Socket;
+
+(* Message buffer size for send/receive*)
+type
+   TMsgBuff = array [0..XS_MAX_MSG_BUF_SIZE - 1] of AnsiChar;
+   PTMsgBuff = ^TMsgBuff;
+
 
 //XS_EXPORT int xs_poll (xs_pollitem_t *items, int nitems, int timeout);
 function xs_poll(const items: PTXS_Socket; nitems: Integer; timeout: Integer): Integer; cdecl; external libxs_name;
