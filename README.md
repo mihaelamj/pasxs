@@ -65,7 +65,5 @@ C function declarations and basic types
 Wrappers around C functions in libxs_lib
 
 ##To Be Done
-Wrapp all the units
-Make more exaples
-Make object model based on C++ XS object model
+Wrapp all the units, ake more exaples and make object model based on C++ XS object model.
 
