@@ -7,7 +7,7 @@ Bundled libxs version: **1.0.1** (32 and 64 bit, compiled with VS 10, nodebug)
 
 ## Getting Started
 
-The quickest way to get started with pasxs cloning the [pasxs project](https://github.com/mihaelamj/pasxs). There is a demo folder, just compile and run. Make sure that libxs.dll (32 or 64 bit) in the same folder as your exe.
+The quickest way to get started with pasxs is cloning the [pasxs project](https://github.com/mihaelamj/pasxs). There is a demo folder, just compile and run. Make sure that libxs.dll (32 or 64 bit) in the same folder as your exe.
 
 ### Example server/client
 
