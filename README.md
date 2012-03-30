@@ -30,7 +30,8 @@ Writeln(recMsg);
 xs_msg_close(xsClientMessage);
 ```
 #### Send message
-```sendMsg := 'Message to send';
+```
+sendMsg := 'Message to send';
 xs_msg_init_size(xsServerMessage, Length(sendMsg));
 sndBytes := pas_xs_send(pxsServerSocket, sendMsg, 0);
 xs_msg_close(xsServerMessage);
