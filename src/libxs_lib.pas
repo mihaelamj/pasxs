@@ -75,6 +75,7 @@ function xs_getsockopt(s: Pointer; option: Integer; var optval: Pointer; var opt
 function xs_bind(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external libxs_name;
 //int xs_connect (void *s_, const char *addr_)
 function xs_connect(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external libxs_name;
+
 //int xs_sendmsg (void *s_, xs_msg_t *msg_, int flags_)
 function xs_sendmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
 function xs_recvmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
