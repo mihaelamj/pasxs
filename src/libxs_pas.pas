@@ -24,8 +24,13 @@ uses
    libxs_consts,
    libxs_lib;
 
-function pas_xs_send(pSocket: Pointer; MessageStr : AnsiString; MessageFlags: Integer): Integer;
-function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer): Integer;
+(* Sends an AnsiString message on the existing socket, with optional flags
+   returns the number of sent bytes *)
+function pas_xs_send(pSocket: Pointer; MessageStr : AnsiString; MessageFlags: Integer = 0): Integer;
+
+(* Receives an AnsiString message on the existing socket, with optional flags,
+   returns the message in MessageStr parameter, and the number of received bytes*)
+function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer = 0): Integer;
 
 implementation
 
@@ -35,12 +40,13 @@ var
    aLen  : size_t;
 begin
    aLen     := Length(MessageStr) + SizeOf(AnsiChar);
+   //sending C strings
    tmp      := PAnsiChar(MessageStr + #0);
    result   := -1;
    result   := xs_send(pSocket, tmp, aLen, MessageFlags);
 end;
 
-function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer): Integer;
+function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer = 0): Integer;
 var
    tmp   : AnsiString;
    aLen  : size_t;
@@ -50,8 +56,12 @@ begin
    aLen        := MessageLen;
    result      := -1;
    result      := xs_recv(pSocket, tmp, aLen, MessageFlags);
-   if (result > 0)  then
-      MessageStr:= Copy(tmp, 1, result)
+
+   if (result > 0)  then  begin
+      //strip the #0 from the received string
+      Dec(result);
+      MessageStr:= Copy(tmp, 1, result);
+   end;
 end;
 
 end.
