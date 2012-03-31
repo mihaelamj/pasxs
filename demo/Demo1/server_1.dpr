@@ -22,9 +22,6 @@ var
   pxsContext      : Pointer;
   pxsServerSocket : Pointer;
 
-  xsServerMessage : TXS_Msg;
-  xsClientMessage : TXS_Msg;
-
   recBytes,
   sndBytes        : integer;
 
@@ -47,26 +44,18 @@ begin
 
    while True do begin  //Forever :)
       recMsg := '';
-      (*Initialise an empty message to be received from the client*)
-      xs_msg_init(xsClientMessage);
       (*Receive a message/part from a socket -> block until a message is available
       to be received from the socket, 0 -> no flags*)
       recBytes := pas_xs_recv(pxsServerSocket, recMsg, 256, 0);
       Writeln(Format('Received : %s (%d bytes)', [recMsg, recBytes]));
-      (*Close the received message*)
-      xs_msg_close(xsClientMessage);
 
       (*Simulate some work*)
       Sleep (3);
       //sendMsg := Format('I received %s ', [recMsg]);
       sendMsg := recMsg;
-      (*Init the new message to send to the client, with the message size, since we know it*)
-      xs_msg_init_size(xsServerMessage, Length(sendMsg));
       (*Send the server message on the server socket, to the client, 0 -> no flags*)
       sndBytes := pas_xs_send(pxsServerSocket, sendMsg, 0);
       Writeln(Format('Sent %d bytes', [sndBytes]));
-      (*Close the sent message*)
-      xs_msg_close(xsServerMessage);
    end;
    WriteLn('Server terminated!');
    (* CLose the server socket and terminate the context *)
