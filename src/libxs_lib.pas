@@ -23,8 +23,6 @@ uses
 
 type
   size_t = Cardinal;
-//  short_t = SmallInt;
-//  uns_long_t = LongWord;
 
 (* Run-time API version detection
 XS_EXPORT void xs_version (int *major, int *minor, int *patch);*)
@@ -41,14 +39,6 @@ function xs_errno: Integer; cdecl; external libxs_name;
 XS_EXPORT const char *xs_strerror (int errnum); *)
 function xs_strerror(errnum: Integer): PAnsiChar; cdecl; external libxs_name;
 
-(*Used for casting pointers back to the struct
-    class Msg < FFI::Struct
-      layout   :content, :pointer,
-               :flags, :uint8,
-               :vsm_size, :uint8,
-               :vsm_data, [:uint8, 30]
-    end # class Msg
-*)
 type
   PTXS_Msg = ^TXS_Msg;
 
