@@ -53,20 +53,20 @@ begin
       Readln(readStr);
       (*Init the new message to send to the server, with the message size, since we know it*)
       xs_msg_init_size(xsClientMessage, Length(readStr));
-      Writeln('Sending :' + readStr);
+      Writeln(Format('Sending %s ', [readStr]));
       (*Send the client message on the client socket, to the server, 0 -> no flags*)
       sndBytes := pas_xs_send(pxsClientSocket, readStr, 0);
+      Writeln(Format('Sent %d bytes, waiting reply..', [sndBytes]));
       (*Close the sent client message*)
       xs_msg_close(xsClientMessage);
 
 
-      Writeln('Receiving reply from the server');
       (*Initialise an empty message to be received from the server*)
       xs_msg_init(xsServerMessage);
       recMsg   := '';
       (*Receive a xsServerMessage from our socket connected to the server, 0 -> no flags*)
       recBytes := pas_xs_recv(pxsClientSocket, recMsg, 256, 0);
-      Writeln('Received a message from the server: ' + recMsg);
+      Writeln(Format('Received : %s (%d bytes)', [recMsg, recBytes]));
       (*Close the received message*)
       xs_msg_close(xsServerMessage);
    until readStr = cTerm ;
