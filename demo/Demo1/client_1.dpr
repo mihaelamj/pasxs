@@ -46,7 +46,7 @@ begin
    xs_connect(pxsClientSocket, 'tcp://localhost:5555');
    readStr := '';
    repeat
-      WriteLn('Enter message to send to the server');
+      WriteLn('Enter string to send to the server');
       Readln(readStr);
       Writeln(Format('Sending %s ', [readStr]));
       (*Send the client message on the client socket, to the server, 0 -> no flags*)
