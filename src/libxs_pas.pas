@@ -44,7 +44,6 @@ function NewMessageStr(MessageStr  : AnsiString): TXS_Msg;
 
 implementation
 
-//Socket.SendStr(MessageStr : AnsiString; MessageFlags: Integer)
 function pas_xs_send(pSocket: Pointer; MessageStr : AnsiString; MessageFlags: Integer): Integer;
 var
    tmp   : PAnsiChar;
@@ -57,10 +56,7 @@ begin
    result   := xs_send(pSocket, tmp, aLen, MessageFlags);
 end;
 
-////int xs_recv (  void *socket, void *buf,        size_t len,  int flags);
-//function xs_recv(s: Pointer;   buf : AnsiString; len: size_t; flags: Integer)
 
-//Socket.ReceiveStr(var MessageStr : AnsiString; MessageFlags: Integer)
 function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer = 0): Integer;
 var
    tmp   : AnsiString;
