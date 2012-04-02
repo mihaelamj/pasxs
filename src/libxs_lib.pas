@@ -55,9 +55,22 @@ type
 (* Message api *)
 function xs_msg_close(var msg: TXS_Msg): Integer; cdecl; external libxs_name;
 function xs_msg_copy(var dest: TXS_Msg; var src: TXS_Msg): Integer; cdecl; external libxs_name;
+(* Returns the pointer to the message data (content):
+   u.vsm.data if size <= XS_MAX_VSM_SIZE, on the stack, or
+   u.lmsg.content->data otherwise, on the heap *)
 function xs_msg_data(var msg: TXS_Msg): Pointer; cdecl; external libxs_name;
+//sets all members to zero
 function xs_msg_init(var msg: TXS_Msg): Integer; cdecl; external libxs_name;
+(* allocates memory for message data
+  if size > XS_MAX_VSM_SIZE then message if of type lmsg -> long message
+  allocates memory to size + Sizeof(content_t) on the heap
+  starts reference counting of message data*)
 function xs_msg_init_size(var msg: TXS_Msg; size: size_t): Integer; cdecl; external libxs_name;
+(*  does as xs_msg_init_size  with size > XS_MAX_VSM_SIZE *)
+//int xs_msg_init_data (xs_msg_t *msg_, void *data_, size_t size_, xs_free_fn *ffn_, void *hint_)
+(* allocates content_t
+   assigns data to msg.data, data destructor to ffn and hint to hint
+*)
 function xs_msg_init_data(var msg: TXS_Msg; data: Pointer; size: size_t; var ffn: TXS_Free_Func; hint: Pointer): Integer; cdecl; external libxs_name;
 function xs_msg_move(var dest: TXS_Msg; var src: TXS_Msg): Integer; cdecl; external libxs_name;
 function xs_msg_size(var msg: TXS_Msg): size_t; cdecl; external libxs_name;
@@ -78,6 +91,7 @@ function xs_connect(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external
 
 //int xs_sendmsg (void *s_, xs_msg_t *msg_, int flags_)
 function xs_sendmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
+//int xs_recvmsg (void *s_, xs_msg_t *msg_, int flags_)
 function xs_recvmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
 
 //int xs_send (void *s_, const void *buf_, size_t len_, int flags_)
