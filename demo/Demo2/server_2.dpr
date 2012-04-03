@@ -25,8 +25,8 @@ var
   pxsContext      : Pointer;
   pxsServerSocket : Pointer;
 
-  xsServerMessage : TXS_Msg;
-  xsClientMessage : TXS_Msg;
+  xsServerMessage : TXS_MsgRec;
+  xsClientMessage : TXS_MsgRec;
 
   recBytes,
   sndBytes        : integer;
