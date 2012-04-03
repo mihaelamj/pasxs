@@ -1,3 +1,19 @@
+(*
+   Crossroads I/O bindings for Delphi Pascal
+   Version 1.0.1
+
+   Mihaela Mihaljevic Jakic
+   mihaela@token.hr
+   http://mihaelamj.com
+
+   GitHub repo:
+   https://github.com/mihaelamj/pasxs
+
+   Fork of the ZeroMQ Pascal bindings (https://github.com/colinj/paszmq)
+*)
+
+(* Pascal Object model for XS library*)
+
 unit libxs_pas_obj;
 
 interface
@@ -9,15 +25,6 @@ uses
    libxs_pas_obj_consts;
 
 type
-
-//   EXS_Generic_Exception = class(Exception)
-//   private
-//      FErrorNo     : Integer;
-//      FErrorWhat   : string;
-//   public
-//      property ErrorNo    : Integer read FErrorNo;
-//      property ErrorWhat  : string read FErrorWhat;
-//   end;
 
    EXS_Exception = class(Exception)
    private
