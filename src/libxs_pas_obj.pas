@@ -398,7 +398,7 @@ procedure TXS_SocketConnectionList.Clear;
 var
    i : Integer;
 begin
-   for i := 0 to Count -1 do
+   for i := Count -1 down to 0 do
       TXS_SocketConnection(FItems[i]).Free;
    FItems.Clear;
 end;
