@@ -40,9 +40,9 @@ XS_EXPORT const char *xs_strerror (int errnum); *)
 function xs_strerror(errnum: Integer): PAnsiChar; cdecl; external libxs_name;
 
 type
-  PTXS_Msg = ^TXS_Msg;
+  PTXS_MsgRec = ^TXS_MsgRec;
 
-  TXS_Msg = record
+  TXS_MsgRec = record
     content    : Pointer;
     flags      : Byte;
     vsm_size   : Byte;
@@ -53,32 +53,34 @@ type
   TXS_Free_Func = procedure(data: Pointer; hint: Pointer); cdecl;
 
 (* Message api *)
-function xs_msg_close(var msg: TXS_Msg): Integer; cdecl; external libxs_name;
-function xs_msg_copy(var dest: TXS_Msg; var src: TXS_Msg): Integer; cdecl; external libxs_name;
+function xs_msg_close(var msg: TXS_MsgRec): Integer; cdecl; external libxs_name;
+function xs_msg_copy(var dest: TXS_MsgRec; var src: TXS_MsgRec): Integer; cdecl; external libxs_name;
 (* Returns the pointer to the message data (content):
    u.vsm.data if size <= XS_MAX_VSM_SIZE, on the stack, or
    u.lmsg.content->data otherwise, on the heap *)
-function xs_msg_data(var msg: TXS_Msg): Pointer; cdecl; external libxs_name;
+function xs_msg_data(var msg: TXS_MsgRec): Pointer; cdecl; external libxs_name;
 //sets all members to zero
-function xs_msg_init(var msg: TXS_Msg): Integer; cdecl; external libxs_name;
+function xs_msg_init(var msg: TXS_MsgRec): Integer; cdecl; external libxs_name;
 (* allocates memory for message data
   if size > XS_MAX_VSM_SIZE then message if of type lmsg -> long message
   allocates memory to size + Sizeof(content_t) on the heap
   starts reference counting of message data*)
-function xs_msg_init_size(var msg: TXS_Msg; size: size_t): Integer; cdecl; external libxs_name;
+function xs_msg_init_size(var msg: TXS_MsgRec; size: size_t): Integer; cdecl; external libxs_name;
 (*  does as xs_msg_init_size  with size > XS_MAX_VSM_SIZE *)
 //int xs_msg_init_data (xs_msg_t *msg_, void *data_, size_t size_, xs_free_fn *ffn_, void *hint_)
 (* allocates content_t
    assigns data to msg.data, data destructor to ffn and hint to hint
 *)
-function xs_msg_init_data(var msg: TXS_Msg; data: Pointer; size: size_t; var ffn: TXS_Free_Func; hint: Pointer): Integer; cdecl; external libxs_name;
-function xs_msg_move(var dest: TXS_Msg; var src: TXS_Msg): Integer; cdecl; external libxs_name;
-function xs_msg_size(var msg: TXS_Msg): size_t; cdecl; external libxs_name;
+function xs_msg_init_data(var msg: TXS_MsgRec; data: Pointer; size: size_t; var ffn: TXS_Free_Func; hint: Pointer): Integer; cdecl; external libxs_name;
+function xs_msg_move(var dest: TXS_MsgRec; var src: TXS_MsgRec): Integer; cdecl; external libxs_name;
+function xs_msg_size(var msg: TXS_MsgRec): size_t; cdecl; external libxs_name;
 
 (*Context*)
 function xs_init(): Pointer; cdecl; external libxs_name;
 function xs_term(context: Pointer): Integer; cdecl; external libxs_name;
-function xs_setctxopt(s: Pointer; option: Integer; const optval: Pointer; optvallen: size_t): Integer; cdecl; external libxs_name;
+//function xs_setctxopt(s: Pointer; option: Integer; const optval: Pointer; optvallen: size_t): Integer; cdecl; external libxs_name;
+//int xs_setctxopt (void *context, int option_name, const void *option_value, size_t option_len);
+function xs_setctxopt(s: Pointer; option: Integer; const optval: integer; optvallen: size_t): Integer; cdecl; external libxs_name;
 
 (* Socket api*)
 function xs_socket(context: Pointer; type_: Integer): Pointer; cdecl; external libxs_name;
@@ -90,9 +92,9 @@ function xs_bind(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external li
 function xs_connect(s: Pointer; const addr: PAnsiChar): Integer; cdecl; external libxs_name;
 
 //int xs_sendmsg (void *s_, xs_msg_t *msg_, int flags_)
-function xs_sendmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
+function xs_sendmsg(s: Pointer; var msg: TXS_MsgRec; flags: Integer): Integer; cdecl; external libxs_name;
 //int xs_recvmsg (void *s_, xs_msg_t *msg_, int flags_)
-function xs_recvmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
+function xs_recvmsg(s: Pointer; var msg: TXS_MsgRec; flags: Integer): Integer; cdecl; external libxs_name;
 
 //int xs_send (void *s_, const void *buf_, size_t len_, int flags_)
 function xs_send(s: Pointer; pBuf : PAnsiChar; len: size_t; flags: Integer): Integer; cdecl; external libxs_name;
@@ -107,14 +109,14 @@ function xs_recv(s: Pointer;  buf : AnsiString; len: size_t; flags: Integer): In
     short events;
     short revents;} xs_pollitem_t;*)
 type
-  TXS_Socket = record
+  TXS_SocketRec = record
     socket     : Pointer;
     fd         : Integer;
     events     : SmallInt;
     revents    : SmallInt;
   end;
 
-  PTXS_Socket = ^TXS_Socket;
+  PTXS_SocketRec = ^TXS_SocketRec;
 
 (* Message buffer size for send/receive*)
 type
@@ -123,7 +125,7 @@ type
 
 
 //XS_EXPORT int xs_poll (xs_pollitem_t *items, int nitems, int timeout);
-function xs_poll(const items: PTXS_Socket; nitems: Integer; timeout: Integer): Integer; cdecl; external libxs_name;
+function xs_poll(const items: PTXS_SocketRec; nitems: Integer; timeout: Integer): Integer; cdecl; external libxs_name;
 
 
 (*/******************************************************************************/
