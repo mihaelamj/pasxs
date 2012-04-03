@@ -75,6 +75,10 @@ const
    XS_MAX_SOCKETS = 1;
    XS_IO_THREADS =  2;
 
+   //Context default parametars
+   XS_CTX_DEF_SOCKETS = 512;
+   XS_CTX_DEF_THREADS = 1;
+
 (* Socket types.*)
    XS_SOCK_TYPE_PAIR      = 0;
    XS_SOCK_TYPE_PUB       = 1;
