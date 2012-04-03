@@ -151,7 +151,6 @@ uses
   libxs_pas;
 
 { EXS_Exception }
-
 constructor EXS_Exception.Create;
 begin
    FErrorNo    := libxs_lib.xs_errno();
@@ -160,7 +159,6 @@ begin
 end;
 
 { EXS_Pas_Exception }
-
 constructor EXS_Pas_Exception.Create(const aErrorNo: integer);
 begin
    FErrorNo    := aErrorNo;
@@ -169,7 +167,6 @@ begin
 end;
 
 { TXS_Context }
-
 constructor TXS_Context.Create;
 begin
    FPContext := nil;
@@ -190,7 +187,6 @@ begin
    FPContext := nil;
    inherited Destroy;
 end;
-
 
 function TXS_Context.SetCtxOptInternal(const aOptionName, aOptionValue: integer): boolean;
 begin
@@ -223,7 +219,6 @@ begin
 end;
 
 { TXS_Socket }
-
 function TXS_Socket.Connect(aTransportType: TXS_TansportType;
                             aAddress: AnsiString;
                             aPort: integer): boolean;
@@ -270,7 +265,6 @@ begin
       raise EXS_Exception.Create;
 end;
 
-
 function TXS_Socket.Close : boolean;
 begin
    result := FPSocket = nil;
@@ -287,7 +281,6 @@ begin
    FConnections.Free;
    inherited Destroy;
 end;
-
 
 function TXS_Socket.GetSocketTypeName: string;
 begin
@@ -315,8 +308,7 @@ begin
 end;
 
 { TXS_SocketConnectionList }
-
-constructor TXS_SocketConnectionList.Create(aXS_Socket : TXS_Socket);
+ constructor TXS_SocketConnectionList.Create(aXS_Socket : TXS_Socket);
 begin
    if aXS_Socket = nil then
       raise EXS_Pas_Exception.Create(libxs_pas_obj_consts.XS_ERR_SOCK_NIL)
@@ -379,7 +371,6 @@ begin
       raise EXS_Exception.Create;
 end;
 
-
 function TXS_SocketConnectionList.Add(aBind : boolean;
                                       aTransportType: TXS_TansportType;
                                       aAddress: AnsiString;
@@ -403,7 +394,6 @@ begin
    FItems.Clear;
 end;
 
-
 function TXS_SocketConnectionList.GetCount: Integer;
 begin
    result := FItems.Count;
@@ -415,7 +405,6 @@ begin
 end;
 
 { TXS_SocketConnection }
-
 constructor TXS_SocketConnection.Create(aParent: TXS_SocketConnectionList;
                                         aTransportType: TXS_TansportType;
                                         aConnectionType: TXS_Socket_ConnectionType;
@@ -446,8 +435,6 @@ end;
 function TXS_SocketConnection.GetTransportTypeName: string;
 begin
    result := libxs_pas_obj_consts.GetTransportTypeRec(FTransportType).Name;
-
-
 end;
 
 function TXS_SocketConnection.GetConnectionTypeName: string;
