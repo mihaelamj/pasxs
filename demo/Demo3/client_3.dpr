@@ -71,7 +71,7 @@ begin
       DoRun := aClientSocket.Connect(xttTCP, 'localhost', 5555) ;
    except
       on E : Exception do begin
-         WriteLn(Format('Error binding socket: %s', [E.Message]));
+         WriteLn(Format('Error connecting socket: %s', [E.Message]));
          Finish(aContext, aClientSocket);
       end;
    end;
