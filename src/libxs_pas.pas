@@ -32,14 +32,14 @@ function pas_xs_send(pSocket: Pointer; MessageStr : AnsiString; MessageFlags: In
 function pas_xs_recv(pSocket: Pointer; var MessageStr : AnsiString; MessageLen: size_t; MessageFlags: Integer = 0): Integer;
 
 //function xs_sendmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
-function pas_xs_sendmsg(pSocket: Pointer; var xsMessage: TXS_Msg; MessageFlags: Integer = 0): Integer;
+function pas_xs_sendmsg(pSocket: Pointer; var xsMessage: TXS_MsgRec; MessageFlags: Integer = 0): Integer;
 
 //function xs_recvmsg(s: Pointer; var msg: TXS_Msg; flags: Integer): Integer; cdecl; external libxs_name;
-function pas_xs_recvmsg(pSocket: Pointer; var xsMessage: TXS_Msg; MessageFlags: Integer = 0): Integer;
+function pas_xs_recvmsg(pSocket: Pointer; var xsMessage: TXS_MsgRec; MessageFlags: Integer = 0): Integer;
 
-function GetMessageData(var xsMessage: TXS_Msg; MessageLen : integer):AnsiString;
-function SetMessageData(var xsMessage: TXS_Msg; MessageStr  : AnsiString): boolean;
-function NewMessageStr(MessageStr  : AnsiString): TXS_Msg;
+function GetMessageData(var xsMessage: TXS_MsgRec; MessageLen : integer):AnsiString;
+function SetMessageData(var xsMessage: TXS_MsgRec; MessageStr  : AnsiString): boolean;
+function NewMessageStr(MessageStr  : AnsiString): TXS_MsgRec;
 
 
 implementation
@@ -75,18 +75,18 @@ begin
    end;
 end;
 
-function pas_xs_sendmsg(pSocket: Pointer; var xsMessage: TXS_Msg; MessageFlags: Integer = 0): Integer;
+function pas_xs_sendmsg(pSocket: Pointer; var xsMessage: TXS_MsgRec; MessageFlags: Integer = 0): Integer;
 begin
    result := xs_sendmsg(pSocket, xsMessage, MessageFlags);
 end;
 
-function pas_xs_recvmsg(pSocket: Pointer; var xsMessage: TXS_Msg; MessageFlags: Integer = 0): Integer;
+function pas_xs_recvmsg(pSocket: Pointer; var xsMessage: TXS_MsgRec; MessageFlags: Integer = 0): Integer;
 begin
    result := xs_recvmsg(pSocket, xsMessage, MessageFlags);
 end;
 
 
-function GetMessageData(var xsMessage: TXS_Msg; MessageLen : integer):AnsiString;
+function GetMessageData(var xsMessage: TXS_MsgRec; MessageLen : integer):AnsiString;
 var
   pMsgData        : Pointer;
   tmp             : AnsiString;
@@ -100,7 +100,7 @@ begin
    result := Copy(tmp, 1, MessageLen - SizeOf(AnsiChar));
 end;
 
-function SetMessageData(var xsMessage: TXS_Msg; MessageStr  : AnsiString): boolean;
+function SetMessageData(var xsMessage: TXS_MsgRec; MessageStr  : AnsiString): boolean;
 var
   pMsgData        : Pointer;
   aLen            : size_t;
@@ -119,7 +119,7 @@ begin
    result := True;
 end;
 
-function NewMessageStr(MessageStr : AnsiString): TXS_Msg;
+function NewMessageStr(MessageStr : AnsiString): TXS_MsgRec;
 begin
    SetMessageData(result, MessageStr);
 end;
