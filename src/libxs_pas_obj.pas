@@ -82,7 +82,6 @@ type
 
       function SendString(const aStr : AnsiString; aDontWait : boolean = False; aSendMore : boolean = False) : integer;
       function ReceiveString(var aStr: AnsiString; aDontWait : boolean = False; aSendMore : boolean = False): integer;
-      //function ReceiveString(var aStr: AnsiString; MessageLen: size_t; aDontWait : boolean = False; aSendMore : boolean = False): integer;
 
       property XS_Contect        : TXS_Context read FXS_Context;
       property Socket            : Pointer read FPSocket;
@@ -145,25 +144,11 @@ type
 
    end;
 
-(*
-int io_threads = 4;
-rc = xs_setctxopt (context, XS_IO_THREADS, &io_threads, sizeof (io_threads));
-*)
-
 implementation
 
 uses
   libxs_consts,
   libxs_pas;
-
-{ EXS_Generic_Exception }
-
-//constructor EXS_Generic_Exception.Create(const Msg: string);
-//begin
-//   FErrorNo    := -1;
-//   FErrorWhat  := '';
-//   inherited Create(FErrorWhat);
-//end;
 
 { EXS_Exception }
 
@@ -236,8 +221,6 @@ begin
          FMaxNoThreads := Value;
    end;
 end;
-
-
 
 { TXS_Socket }
 
@@ -322,8 +305,6 @@ begin
                                    aStr,
                                    libxs_consts.XS_MAX_MSG_BUF_SIZE,
                                    libxs_pas_obj_consts.SetSndRcvIntFlags(aDontWait, aSendMore));
-//   if result < 0 then
-//      raise EXS_Exception.Create;
 end;
 
 function TXS_Socket.SendString(const aStr : AnsiString; aDontWait : boolean = False; aSendMore : boolean = False) : integer;
@@ -331,8 +312,6 @@ begin
    result := libxs_pas.pas_xs_send(Socket,
                                    aStr,
                                    libxs_pas_obj_consts.SetSndRcvIntFlags(aDontWait, aSendMore));
-//   if result < 0 then
-//      raise EXS_Exception.Create;
 end;
 
 { TXS_SocketConnectionList }
@@ -374,17 +353,6 @@ begin
    end //Check for empty address
    else if aAddress = '' then
       raise EXS_Pas_Exception.Create(libxs_pas_obj_consts.XS_ERR_TRANS_NOADDR)
-//   else if aTransPortType in [xttPGM, xttEPGM]  then begin
-//
-//   end;
-(*
-    if ((protocol_ == "pgm" || protocol_ == "epgm") &&
-          options.type != XS_PUB && options.type != XS_SUB &&
-          options.type != XS_XPUB && options.type != XS_XSUB) {
-        errno = ENOCOMPATPROTO;
-        return -1;
-    }
-*)
    else begin
       result := True;
       //Check for ports
@@ -395,7 +363,6 @@ begin
          end;
       end;
    end;
-
 
    if result then begin
       aFullAddress   := libxs_pas_obj_consts.GetFullAddress(aTransportType, aAddress, aPort);
@@ -494,7 +461,5 @@ begin
                     [libxs_pas_obj_consts.GetConnectionTypeName(FConnectionType),
                      FullAddress]);
 end;
-
-
 
 end.
