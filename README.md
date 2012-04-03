@@ -12,43 +12,23 @@ The quickest way to get started with pasxs is cloning the [pasxs project](https:
 ### Example server/client
 
 #### Initialize context
-```pxsContext        := xs_init();```
+```aContext      := TXS_Context.Create;```
 #### Create server socket
-```pxsServerSocket   := xs_socket(pxsContext, XS_SOCK_TYPE_REP);```
+```aServerSocket := TXS_Socket.Create(aContext, xstREP);```
 #### Bind server to the transport ://address
-```xs_bind(pxsServerSocket, 'tcp://*:5555');```
+```DoRun := aServerSocket.Bind(xttTCP, '*', 5555);```
 
 
 #### Create client socket
-```pxsClientSocket   := xs_socket(pxsContext, XS_SOCK_TYPE_REQ);```
+```aClientSocket := TXS_Socket.Create(aContext, xstREQ);```
 #### Connect client to the server
-```xs_connect(pxsClientSocket, 'tcp://localhost:5555');```
+```DoRun := aClientSocket.Connect(xttTCP, 'localhost', 5555);```
 #### Receive messages
-```xs_msg_init(xsClientMessage);
-recBytes := pas_xs_recv(pxsServerSocket, recMsg, 256, 0);
-Writeln(recMsg);
-xs_msg_close(xsClientMessage);
-```
+```recBytes := aClientSocket.ReceiveString(recMsg)```
 #### Send message
-```
-sendMsg := 'Message to send';
-xs_msg_init_size(xsServerMessage, Length(sendMsg));
-sndBytes := pas_xs_send(pxsServerSocket, sendMsg, 0);
-xs_msg_close(xsServerMessage);
-```
-#### Variable types
-```
-pxsContext      : Pointer;
-pxsClientSocket : Pointer;
-xsServerMessage : TXS_Msg;
-xsClientMessage : TXS_Msg;
-recBytes,
-sndBytes        : integer;
-readStr         : AnsiString;
-recMsg          : AnsiString;
-```
+```sndBytes := aClientSocket.SendString(readStr);```
 
-There is a demonstartion project with server and client implementations.
+There is a [demonstartion project](https://github.com/mihaelamj/pasxs/tree/master/demo/Demo3) with server and client implementations.
 
 
 ## Included units
@@ -56,14 +36,18 @@ There is a demonstartion project with server and client implementations.
 ### libxs_consts.pas
 Crossroads I/O constants 
 
-
 ### libxs_lib.pas
 C function declarations and basic types 
-
 
 ### libxs_pas.pas
 Wrappers around C functions in libxs_lib
 
+### libxs_pas_obj.pas
+Pascal Object model for XS library
+
+### libxs_pas_obj_consts.pas
+Constants and helpers for libxs_pas_obj.pas
+
 ##To Be Done
-Wrap all necessary functions, add more examples and make object model based on C++ XS object model.
+Wrap all necessary functions, add more examples and finish object model based on C++ XS object model.
 
